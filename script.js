@@ -10,7 +10,7 @@
    ========================================================= */
 
 const CONFIG = {
-  API_BASE: 'https://findit-backend-p7nm.onrender.com/', // Relative API URL
+  API_BASE: 'https://findit-backend-p7nm.onrender.com', // Relative API URL
   SESSION_STORAGE_KEY: 'findit_auth_token',
   USER_STORAGE_KEY: 'findit_auth_user'
 };
