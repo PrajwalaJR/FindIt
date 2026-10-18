@@ -35,6 +35,15 @@
   - Interactive student profile modal and settings management.
 
 ---
+#### FindIt – Lost and Found Platform
+
+**Live Frontend:** https://prajwalajr.github.io/FindIt/
+
+**Backend API:** https://findit-backend-p7nm.onrender.com/
+
+### Deployment
+The frontend is hosted on GitHub Pages, and the backend API is hosted on Render.
+
 
 ## 🛠️ Tech Stack
 
