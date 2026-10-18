@@ -1,0 +1,875 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FindIt AI - Lost & Found</title>
+  <link rel="stylesheet" href="index.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+</head>
+<body class="auth-active">
+
+<!-- ==========================================
+     AUTHENTICATION SCREEN
+     ========================================== -->
+<div class="auth-screen" id="authScreen">
+  <div class="auth-left">
+    <div class="auth-brand">
+      <div class="brand-mark">F</div>
+      <div>
+        <h2>FindIt</h2>
+        <span>AI Lost & Found</span>
+      </div>
+    </div>
+
+    <div class="auth-hero">
+      <span class="eyebrow">SMART CAMPUS RECOVERY</span>
+      <h1>Lost something?<br><strong>Let's find it.</strong></h1>
+      <p>FindIt uses smart matching to connect lost items with things found around your campus.</p>
+
+      <div class="auth-features">
+        <div><span>✦</span><div><b>AI-powered matching</b><small>Find potential matches faster.</small></div></div>
+        <div><span>⌕</span><div><b>Search your campus</b><small>Browse lost and found reports.</small></div></div>
+        <div><span>🔒</span><div><b>Safe & private</b><small>Connect through a secure campus process.</small></div></div>
+      </div>
+    </div>
+
+    <div class="auth-footer">© 2026 FindIt · Campus Lost & Found</div>
+  </div>
+
+  <div class="auth-right">
+    <div class="auth-card">
+      <div class="auth-mobile-logo">
+        <div class="brand-mark">F</div>
+        <b>FindIt</b>
+      </div>
+
+      <!-- LOGIN FORM -->
+      <div class="auth-form active" id="loginForm">
+        <span class="eyebrow">WELCOME BACK</span>
+        <h2>Sign in to FindIt</h2>
+        <p class="auth-sub">Enter your campus account details to continue.</p>
+
+        <form id="loginFormElement" novalidate>
+          <label>Campus email
+            <input type="email" id="loginEmail" required placeholder="you@campus.edu">
+          </label>
+
+          <label>Password
+            <div class="password-wrap">
+              <input type="password" id="loginPassword" required placeholder="Enter your password">
+              <button type="button" class="password-toggle" data-target="loginPassword">Show</button>
+            </div>
+          </label>
+
+          <div class="auth-options">
+            <label class="remember"><input type="checkbox" id="rememberMe" checked> <span>Remember me</span></label>
+            <button type="button" class="link-btn" id="forgotPasswordBtn">Forgot password?</button>
+          </div>
+
+          <button class="primary-btn auth-submit" id="loginSubmitBtn" type="submit">Sign In →</button>
+        </form>
+
+        <div class="auth-divider"><span>or</span></div>
+        <button class="campus-btn" type="button" id="campusLogin">Continue with Campus Account</button>
+
+        <p class="switch-auth">Don't have an account? <button type="button" class="link-btn" id="switchToSignup">Create one</button></p>
+      </div>
+
+      <!-- SIGN UP FORM -->
+      <div class="auth-form" id="signupForm">
+        <span class="eyebrow">JOIN FINDIT</span>
+        <h2>Create your account</h2>
+        <p class="auth-sub">Use your campus details to create a FindIt account.</p>
+
+        <form id="signupFormElement" novalidate>
+          <div class="auth-name-grid">
+            <label>First name
+              <input type="text" id="signupFirst" required placeholder="First name">
+            </label>
+            <label>Last name
+              <input type="text" id="signupLast" required placeholder="Last name">
+            </label>
+          </div>
+
+          <label>Campus email
+            <input type="email" id="signupEmail" required placeholder="you@campus.edu">
+          </label>
+
+          <label>Student / Staff ID
+            <input type="text" id="signupId" required placeholder="e.g. STU-12345">
+          </label>
+
+          <label>Password
+            <div class="password-wrap">
+              <input type="password" id="signupPassword" required minlength="6" placeholder="At least 6 characters">
+              <button type="button" class="password-toggle" data-target="signupPassword">Show</button>
+            </div>
+          </label>
+
+          <label>Confirm Password
+            <div class="password-wrap">
+              <input type="password" id="signupConfirmPassword" required minlength="6" placeholder="Re-enter password">
+              <button type="button" class="password-toggle" data-target="signupConfirmPassword">Show</button>
+            </div>
+          </label>
+
+          <label class="terms-check">
+            <input type="checkbox" id="signupTerms" required checked>
+            <span>I agree to the FindIt terms and campus lost & found guidelines.</span>
+          </label>
+
+          <button class="primary-btn auth-submit" id="signupSubmitBtn" type="submit">Create Account →</button>
+        </form>
+
+        <div class="auth-divider"><span>or</span></div>
+        <button class="campus-btn" type="button" id="campusSignupBtn">Continue with Campus Account</button>
+
+        <p class="switch-auth">Already have an account? <button type="button" class="link-btn" id="switchToLogin">Sign in</button></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==========================================
+     CAMPUS SSO SIMULATED LOGIN MODAL
+     ========================================== -->
+<div class="modal-overlay" id="campusModal">
+  <div class="modal sso-modal">
+    <button class="modal-close" id="closeCampusModal">×</button>
+    <div class="sso-header">
+      <div class="sso-icon">🏛️</div>
+      <div>
+        <span class="eyebrow">CAMPUS CENTRAL AUTHENTICATION</span>
+        <h2>University Single Sign-On (SSO)</h2>
+        <p class="modal-sub">Authenticate securely using your official university portal identity.</p>
+      </div>
+    </div>
+
+    <form id="campusSsoForm" novalidate>
+      <label>University Email or Student ID
+        <input type="text" id="campusSsoIdentifier" required placeholder="Enter campus email or Student ID">
+      </label>
+
+      <div class="quick-accounts">
+        <span class="quick-label">Or choose a campus test identity:</span>
+        <div class="quick-buttons">
+          <button type="button" class="quick-chip" data-email="maya@campus.edu" data-id="STU-88214" data-fname="Maya" data-lname="Joseph">
+            <b>Maya Joseph</b><small>STU-88214 (Central)</small>
+          </button>
+          <button type="button" class="quick-chip" data-email="alex@campus.edu" data-id="STU-77402" data-fname="Alex" data-lname="Chen">
+            <b>Alex Chen</b><small>STU-77402 (North)</small>
+          </button>
+          <button type="button" class="quick-chip" data-email="sarah@campus.edu" data-id="STU-65190" data-fname="Sarah" data-lname="Jenkins">
+            <b>Sarah Jenkins</b><small>STU-65190 (Central)</small>
+          </button>
+        </div>
+      </div>
+
+      <button class="primary-btn full" id="campusSsoSubmitBtn" type="submit">Authenticate & Continue to FindIt →</button>
+    </form>
+  </div>
+</div>
+
+<!-- ==========================================
+     MAIN APP SHELL
+     ========================================== -->
+<div class="app-shell" id="appShell">
+
+  <!-- SIDEBAR NAVIGATION -->
+  <aside class="sidebar" id="sidebar">
+    <div class="brand">
+      <div class="brand-mark">F</div>
+      <div>
+        <h2>FindIt</h2>
+        <span>AI Lost & Found</span>
+      </div>
+    </div>
+
+    <nav class="side-nav">
+      <p class="nav-label">MAIN</p>
+      <button class="nav-item active" data-page="dashboard" id="navDashboard"><span>⌂</span> Dashboard</button>
+      <button class="nav-item" data-page="search" id="navSearch"><span>⌕</span> Search</button>
+      <button class="nav-item" data-page="lost" id="navLost"><span>●</span> Lost Items <b class="count red" id="sideLostCount">0</b></button>
+      <button class="nav-item" data-page="found" id="navFound"><span>●</span> Found Items <b class="count green" id="sideFoundCount">0</b></button>
+      <button class="nav-item" data-page="matches" id="navMatches"><span>✦</span> AI Matches <b class="count purple" id="sideMatchesCount">0</b></button>
+
+      <p class="nav-label">MY ACTIVITY</p>
+      <button class="nav-item" data-page="reports" id="navReports"><span>▤</span> My Reports</button>
+      <button class="nav-item" data-page="notifications" id="navNotifications"><span>♢</span> Notifications <b class="count red" id="sideNotifCount">0</b></button>
+
+      <button class="report-nav" id="openReportBtn">
+        <span>＋</span>
+        Report Lost / Found
+      </button>
+    </nav>
+
+    <div class="sidebar-bottom">
+      <div class="mini-user" id="sidebarUserBtn" title="Click to view profile">
+        <div class="avatar" id="sidebarAvatar">U</div>
+        <div>
+           <strong id="sidebarUserName">User</strong>
+           <small id="sidebarUserCampus">Student · Campus</small>
+        </div>
+        <span>⋮</span>
+      </div>
+      <button class="nav-item settings-btn" data-page="settings" id="navSettings"><span>⚙</span> Settings</button>
+    </div>
+  </aside>
+
+  <!-- MAIN VIEWPORT -->
+  <main class="main-content">
+    <!-- TOPBAR -->
+    <header class="topbar">
+      <button class="mobile-menu" id="mobileMenu" aria-label="Toggle Navigation">☰</button>
+      <div class="breadcrumb">FindIt <span>/</span> <strong id="breadcrumb">Dashboard</strong></div>
+      <div class="top-actions">
+        <button class="icon-btn" id="topNotifBtn" title="Notifications" data-page="notifications">♢<i id="notifDot"></i></button>
+        <button class="profile-btn" id="topProfileBtn">
+          <span class="avatar small" id="topAvatar">U</span>
+          <span class="profile-name" id="topUserName">User</span>
+        </button>
+      </div>
+    </header>
+
+    <div class="page-wrap">
+
+      <!-- ==========================================
+           PAGE 1: DASHBOARD
+           ========================================== -->
+      <section class="page active" id="page-dashboard">
+        <div class="page-heading">
+          <div>
+            <span class="eyebrow">WELCOME BACK</span>
+            <h1 id="dashGreeting">Welcome back! 👋</h1>
+            <p>Let's help you find what you're looking for around campus.</p>
+          </div>
+          <button class="primary-btn" id="dashReportBtn">＋ Report Item</button>
+        </div>
+
+        <!-- STATS GRID -->
+        <div class="stat-grid">
+          <div class="stat-card" data-page="reports">
+            <div class="stat-icon purple-bg">⌕</div>
+            <div>
+              <span>My Active Reports</span>
+              <strong id="statActiveReports">0</strong>
+              <small class="up" id="statActiveReportsSub">↑ Active on campus</small>
+            </div>
+          </div>
+          <div class="stat-card" data-page="lost">
+            <div class="stat-icon red-bg">●</div>
+            <div>
+              <span>Lost Items</span>
+              <strong id="statLostCount">0</strong>
+              <small>Reported on campus</small>
+            </div>
+          </div>
+          <div class="stat-card" data-page="found">
+            <div class="stat-icon green-bg">●</div>
+            <div>
+              <span>Found Items</span>
+              <strong id="statFoundCount">0</strong>
+              <small>Waiting for owners</small>
+            </div>
+          </div>
+          <div class="stat-card" data-page="matches">
+            <div class="stat-icon yellow-bg">✦</div>
+            <div>
+              <span>Potential Matches</span>
+              <strong id="statMatchesCount">0</strong>
+              <small class="up" id="statMatchesSub">↑ AI calculated</small>
+            </div>
+          </div>
+        </div>
+
+        <!-- FEATURED AI MATCH ASSISTANT CARD -->
+        <div class="section-head">
+          <div>
+            <span class="eyebrow">AI MATCH ASSISTANT</span>
+            <h2 id="dashMatchTitle">Possible match for your reported items</h2>
+          </div>
+          <button class="text-btn" data-page="matches">View all matches →</button>
+        </div>
+
+        <div class="feature-match" id="dashFeatureMatch">
+          <!-- Populated dynamically by script.js -->
+        </div>
+
+        <!-- TWO COLUMN SECTION: BROWSE & RECENT -->
+        <div class="two-col">
+          <div class="panel">
+            <div class="panel-head">
+              <div><span class="eyebrow">BROWSE</span><h2>Browse by Category</h2></div>
+            </div>
+            <div class="category-grid" id="dashCategoryGrid">
+              <button class="category" data-cat="Electronics"><span>💻</span><b>Electronics</b><small id="catCountElectronics">0 items</small></button>
+              <button class="category" data-cat="Bags"><span>🎒</span><b>Bags</b><small id="catCountBags">0 items</small></button>
+              <button class="category" data-cat="Keys"><span>🔑</span><b>Keys</b><small id="catCountKeys">0 items</small></button>
+              <button class="category" data-cat="Wallets"><span>💳</span><b>Wallets</b><small id="catCountWallets">0 items</small></button>
+              <button class="category" data-cat="Clothing"><span>👕</span><b>Clothing</b><small id="catCountClothing">0 items</small></button>
+              <button class="category" data-cat="Other"><span>📱</span><b>Other</b><small id="catCountOther">0 items</small></button>
+            </div>
+          </div>
+
+          <div class="panel">
+            <div class="panel-head">
+              <div><span class="eyebrow">RECENT ACTIVITY</span><h2>Campus items</h2></div>
+              <button class="text-btn" data-page="search">See all →</button>
+            </div>
+            <div class="activity-list" id="dashRecentActivity">
+              <!-- Populated dynamically -->
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==========================================
+           PAGE 2: SEARCH
+           ========================================== -->
+      <section class="page" id="page-search">
+        <div class="page-heading">
+          <div>
+            <span class="eyebrow">FIND AN ITEM</span>
+            <h1>Search Lost & Found</h1>
+            <p>Search campus reports and narrow the results using filters.</p>
+          </div>
+        </div>
+
+        <div class="search-large">
+          <span>⌕</span>
+          <input type="text" id="searchInput" placeholder="Search for an item, brand, color or location...">
+          <button type="button" id="searchButton">Search</button>
+        </div>
+
+        <div class="filter-row">
+          <select id="typeFilter">
+            <option value="all">All items</option>
+            <option value="lost">Lost only</option>
+            <option value="found">Found only</option>
+          </select>
+          <select id="categoryFilter">
+            <option value="all">All categories</option>
+            <option value="Electronics">Electronics</option>
+            <option value="Bags">Bags</option>
+            <option value="Clothing">Clothing</option>
+            <option value="Wallets">Wallets</option>
+            <option value="Keys">Keys</option>
+            <option value="Other">Other</option>
+          </select>
+          <select id="locationFilter">
+            <option value="all">Any location</option>
+            <option value="Library">Library</option>
+            <option value="Student Center">Student Center</option>
+            <option value="Gym">Gym</option>
+            <option value="Cafeteria">Cafeteria</option>
+          </select>
+          <button type="button" class="filter-btn" id="resetFiltersBtn">Reset filters</button>
+        </div>
+
+        <div class="results-meta">
+          <b id="resultCount">0</b> results found <span>Sorted by relevance</span>
+        </div>
+
+        <div class="item-grid" id="searchResults">
+          <!-- Populated dynamically -->
+        </div>
+      </section>
+
+      <!-- ==========================================
+           PAGE 3: LOST ITEMS
+           ========================================== -->
+      <section class="page" id="page-lost">
+        <div class="page-heading">
+          <div>
+            <span class="eyebrow red-text">LOST ITEMS</span>
+            <h1>Lost Items</h1>
+            <p>Items reported missing around campus.</p>
+          </div>
+          <button class="primary-btn" id="lostReportBtn">＋ Report Lost Item</button>
+        </div>
+
+        <div class="filter-row compact">
+          <select id="lostCatFilter">
+            <option value="All categories">All categories</option>
+            <option value="Electronics">Electronics</option>
+            <option value="Bags">Bags</option>
+            <option value="Clothing">Clothing</option>
+            <option value="Wallets">Wallets</option>
+            <option value="Keys">Keys</option>
+            <option value="Other">Other</option>
+          </select>
+          <select id="lostLocFilter">
+            <option value="All locations">All locations</option>
+            <option value="Library">Library</option>
+            <option value="Student Center">Student Center</option>
+            <option value="Gym">Gym</option>
+            <option value="Cafeteria">Cafeteria</option>
+          </select>
+          <button class="outline-btn" id="lostSortToggle">Recent first</button>
+        </div>
+
+        <div class="item-grid" id="lostGrid">
+          <!-- Populated dynamically -->
+        </div>
+      </section>
+
+      <!-- ==========================================
+           PAGE 4: FOUND ITEMS
+           ========================================== -->
+      <section class="page" id="page-found">
+        <div class="page-heading">
+          <div>
+            <span class="eyebrow green-text">FOUND ITEMS</span>
+            <h1>Found Items</h1>
+            <p>Items found by students and campus staff.</p>
+          </div>
+          <button class="primary-btn" id="foundReportBtn">＋ Report Found Item</button>
+        </div>
+
+        <div class="filter-row compact">
+          <select id="foundCatFilter">
+            <option value="All categories">All categories</option>
+            <option value="Electronics">Electronics</option>
+            <option value="Bags">Bags</option>
+            <option value="Clothing">Clothing</option>
+            <option value="Wallets">Wallets</option>
+            <option value="Keys">Keys</option>
+            <option value="Other">Other</option>
+          </select>
+          <select id="foundLocFilter">
+            <option value="All locations">All locations</option>
+            <option value="Library">Library</option>
+            <option value="Student Center">Student Center</option>
+            <option value="Gym">Gym</option>
+            <option value="Cafeteria">Cafeteria</option>
+          </select>
+          <button class="outline-btn" id="foundSortToggle">Recent first</button>
+        </div>
+
+        <div class="item-grid" id="foundGrid">
+          <!-- Populated dynamically -->
+        </div>
+      </section>
+
+      <!-- ==========================================
+           PAGE 5: AI MATCHES
+           ========================================== -->
+      <section class="page" id="page-matches">
+        <div class="page-heading">
+          <div>
+            <span class="eyebrow">AI POWERED</span>
+            <h1>AI Matches</h1>
+            <p>Our matching assistant compares descriptions, images, locations and time.</p>
+          </div>
+          <button class="outline-btn" id="howItWorksBtn">How it works ✦</button>
+        </div>
+
+        <div class="ai-banner">
+          <div class="ai-spark">✦</div>
+          <div>
+            <b id="aiBannerTitle">AI Potential Matches</b>
+            <p id="aiBannerSubtitle">Matches calculated against campus lost and found reports.</p>
+          </div>
+          <span class="ai-badge">AI ANALYSIS COMPLETE</span>
+        </div>
+
+        <div class="match-cards" id="matchCards">
+          <!-- Populated dynamically -->
+        </div>
+      </section>
+
+      <!-- ==========================================
+           PAGE 6: MATCH DETAILS / COMPARISON
+           ========================================== -->
+      <section class="page" id="page-match-details">
+        <button class="back-btn" data-page="matches" id="backToMatchesBtn">← Back to AI Matches</button>
+
+        <div class="page-heading">
+          <div>
+            <span class="eyebrow">MATCH COMPARISON</span>
+            <h1 id="matchCompareHeaderTitle">Possible Match</h1>
+            <p>Review the evidence before contacting the person who reported the item.</p>
+          </div>
+          <div class="big-score" id="matchCompareBigScore">94% <small>match</small></div>
+        </div>
+
+        <div class="comparison-grid">
+          <!-- LOST ITEM CARD -->
+          <div class="compare-card" id="compareLostCard">
+            <span class="pill lost">YOUR LOST ITEM</span>
+            <img id="compareLostImg" src="" alt="Lost Item">
+            <h2 id="compareLostName">Lost Item Name</h2>
+            <p id="compareLostLocationDate">Reported Date · Location</p>
+            <div class="detail-lines">
+              <span>Color <b id="compareLostColor">-</b></span>
+              <span>Brand <b id="compareLostBrand">-</b></span>
+              <span>Category <b id="compareLostCategory">-</b></span>
+            </div>
+            <div class="compare-desc">
+              <small>Description:</small>
+              <p id="compareLostDesc">-</p>
+            </div>
+          </div>
+
+          <!-- FOUND ITEM CARD -->
+          <div class="compare-card" id="compareFoundCard">
+            <span class="pill found">FOUND ITEM</span>
+            <img id="compareFoundImg" src="" alt="Found Item">
+            <h2 id="compareFoundName">Found Item Name</h2>
+            <p id="compareFoundLocationDate">Found Date · Location</p>
+            <div class="detail-lines">
+              <span>Color <b id="compareFoundColor">-</b></span>
+              <span>Brand <b id="compareFoundBrand">-</b></span>
+              <span>Category <b id="compareFoundCategory">-</b></span>
+            </div>
+            <div class="compare-desc">
+              <small>Description:</small>
+              <p id="compareFoundDesc">-</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- MULTI FACTOR ANALYSIS PANEL -->
+        <div class="analysis-panel">
+          <div class="score-ring large" id="compareScoreRing">
+            <strong id="compareRingScore">94%</strong>
+            <span id="compareRingLabel">High Match</span>
+          </div>
+          <div class="analysis-bars">
+            <h2>AI Multi-Factor Match Analysis</h2>
+            <div class="bar">
+              <span>Image similarity</span>
+              <b id="barImageScore">97%</b>
+              <i><em id="barImageFill" style="width:97%"></em></i>
+            </div>
+            <div class="bar">
+              <span>Category match</span>
+              <b id="barCategoryScore">100%</b>
+              <i><em id="barCategoryFill" style="width:100%"></em></i>
+            </div>
+            <div class="bar">
+              <span>Color match</span>
+              <b id="barColorScore">100%</b>
+              <i><em id="barColorFill" style="width:100%"></em></i>
+            </div>
+            <div class="bar">
+              <span>Location proximity</span>
+              <b id="barLocationScore">82%</b>
+              <i><em id="barLocationFill" style="width:82%"></em></i>
+            </div>
+            <div class="bar">
+              <span>Time similarity</span>
+              <b id="barDateScore">91%</b>
+              <i><em id="barDateFill" style="width:91%"></em></i>
+            </div>
+            <div class="bar">
+              <span>Brand alignment</span>
+              <b id="barBrandScore">85%</b>
+              <i><em id="barBrandFill" style="width:85%"></em></i>
+            </div>
+          </div>
+        </div>
+
+        <!-- ACTION CLAIM BANNER -->
+        <div class="match-action">
+          <div>
+            <b id="claimActionPrompt">Does this look like your missing item?</b>
+            <p>If yes, submit a claim request to safely coordinate pickup through the campus verification office.</p>
+          </div>
+          <button class="primary-btn" id="claimMatchBtn">Claim Match</button>
+        </div>
+      </section>
+
+      <!-- ==========================================
+           PAGE 7: MY REPORTS
+           ========================================== -->
+      <section class="page" id="page-reports">
+        <div class="page-heading">
+          <div>
+            <span class="eyebrow">MY ACTIVITY</span>
+            <h1>My Reports</h1>
+            <p>Track the lost and found reports you have submitted.</p>
+          </div>
+          <button class="primary-btn" id="newReportBtn">＋ New Report</button>
+        </div>
+
+        <div class="report-stats">
+          <div><strong id="myStatTotal">0</strong><span>All reports</span></div>
+          <div><strong id="myStatLost">0</strong><span>Lost</span></div>
+          <div><strong id="myStatMatches">0</strong><span>Potential matches</span></div>
+          <div><strong id="myStatResolved">0</strong><span>Resolved</span></div>
+        </div>
+
+        <div class="reports-list" id="myReportsList">
+          <!-- Populated dynamically -->
+        </div>
+      </section>
+
+      <!-- ==========================================
+           PAGE 8: NOTIFICATIONS
+           ========================================== -->
+      <section class="page" id="page-notifications">
+        <div class="page-heading">
+          <div>
+            <span class="eyebrow">UPDATES</span>
+            <h1>Notifications</h1>
+            <p>Stay updated about your reports, claims, and AI matches.</p>
+          </div>
+          <button class="text-btn" id="markAllReadBtn">Mark all as read</button>
+        </div>
+
+        <div class="notification-list" id="notificationsList">
+          <!-- Populated dynamically -->
+        </div>
+      </section>
+
+      <!-- ==========================================
+           PAGE 9: SETTINGS
+           ========================================== -->
+      <section class="page" id="page-settings">
+        <div class="page-heading">
+          <div>
+            <span class="eyebrow">ACCOUNT</span>
+            <h1>Settings</h1>
+            <p>Manage your FindIt profile, credentials, and notification preferences.</p>
+          </div>
+        </div>
+
+        <div class="settings-panel">
+          <!-- Profile update -->
+          <div class="setting-block">
+            <h3>Profile Information</h3>
+            <form id="profileUpdateForm" class="settings-form">
+              <div class="form-grid">
+                <label>First Name<input type="text" id="settingsFirst" required></label>
+                <label>Last Name<input type="text" id="settingsLast" required></label>
+                <label>Campus Email<input type="email" id="settingsEmail" disabled></label>
+                <label>Student / Staff ID<input type="text" id="settingsId" disabled></label>
+                <label>Campus Affiliation
+                  <select id="settingsCampus">
+                    <option value="Central Campus">Central Campus</option>
+                    <option value="North Campus">North Campus</option>
+                    <option value="South Campus">South Campus</option>
+                  </select>
+                </label>
+              </div>
+              <button class="primary-btn" type="submit">Save Profile Changes</button>
+            </form>
+          </div>
+
+          <!-- Password change -->
+          <div class="setting-block">
+            <h3>Change Password</h3>
+            <form id="passwordChangeForm" class="settings-form">
+              <div class="form-grid">
+                <label>New Password<input type="password" id="settingsNewPass" minlength="6" placeholder="Enter new password"></label>
+                <label>Confirm New Password<input type="password" id="settingsConfirmPass" minlength="6" placeholder="Confirm new password"></label>
+              </div>
+              <button class="outline-btn" type="submit">Update Password</button>
+            </form>
+          </div>
+
+          <!-- Notification Toggles -->
+          <div class="setting-row">
+            <div>
+              <b>AI match notifications</b>
+              <p>Notify me instantly when a potential lost & found match is detected.</p>
+            </div>
+            <label class="switch"><input type="checkbox" checked><span></span></label>
+          </div>
+
+          <div class="setting-row">
+            <div>
+              <b>Email updates</b>
+              <p>Receive important report updates and claim notifications by email.</p>
+            </div>
+            <label class="switch"><input type="checkbox" checked><span></span></label>
+          </div>
+
+          <div class="setting-row">
+            <div>
+              <b>Campus visibility</b>
+              <p>Allow other verified campus users to see your active reports.</p>
+            </div>
+            <label class="switch"><input type="checkbox" checked><span></span></label>
+          </div>
+
+          <div class="setting-row logout-row">
+            <div>
+              <b>Sign Out</b>
+              <p>Sign out of your FindIt campus session on this device.</p>
+            </div>
+            <button class="danger-btn" id="settingsSignOutBtn">Sign Out</button>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </main>
+</div>
+
+<!-- ==========================================
+     USER PROFILE MODAL / DROPDOWN
+     ========================================== -->
+<div class="modal-overlay" id="profileModal">
+  <div class="modal profile-modal-card">
+    <button class="modal-close" id="closeProfileModal">×</button>
+    <div class="profile-header">
+      <div class="avatar large" id="modalProfileAvatar">U</div>
+      <div>
+        <h2 id="modalProfileName">User</h2>
+        <span class="pill purple-pill" id="modalProfileRole">Student · Campus</span>
+      </div>
+    </div>
+
+    <div class="profile-details-grid">
+      <div class="detail-box">
+        <small>Email</small>
+        <b id="modalProfileEmail">Not available</b>
+      </div>
+      <div class="detail-box">
+        <small>Campus ID</small>
+        <b id="modalProfileId">Not available</b>
+      </div>
+      <div class="detail-box">
+        <small>Campus</small>
+        <b id="modalProfileCampus">Not available</b>
+      </div>
+      <div class="detail-box">
+        <small>Account Status</small>
+        <b class="green-text">Verified Student ✓</b>
+      </div>
+    </div>
+
+    <div class="profile-actions">
+      <button class="outline-btn full" id="profileGoReports">My Reports</button>
+      <button class="outline-btn full" id="profileGoSettings">Account Settings</button>
+      <button class="danger-btn full" id="profileSignOutBtn">Sign Out</button>
+    </div>
+  </div>
+</div>
+
+<!-- ==========================================
+     ITEM DETAILS MODAL
+     ========================================== -->
+<div class="modal-overlay" id="itemDetailsModal">
+  <div class="modal item-details-modal">
+    <button class="modal-close" id="closeItemDetailsModal">×</button>
+    <div class="item-detail-content" id="itemDetailContent">
+      <!-- Populated dynamically -->
+    </div>
+  </div>
+</div>
+
+<!-- ==========================================
+     CLAIM MATCH CONFIRMATION MODAL
+     ========================================== -->
+<div class="modal-overlay" id="claimModal">
+  <div class="modal claim-modal-box">
+    <button class="modal-close" id="closeClaimModal">×</button>
+    <span class="eyebrow">VERIFY & CLAIM</span>
+    <h2>Claim Matching Item</h2>
+    <p class="modal-sub">Submit your claim to contact the reporter and arrange secure return.</p>
+
+    <form id="claimSubmitForm">
+      <label>Additional Verification Note (Optional)
+        <textarea id="claimNote" rows="3" placeholder="Describe any identifying mark, serial number, or item contents to help verify ownership..."></textarea>
+      </label>
+
+      <div class="claim-warning">
+        <span>🛡️</span>
+        <small>All claims are monitored by Campus Security to ensure safe item returns.</small>
+      </div>
+
+      <button class="primary-btn full" id="confirmClaimBtn" type="submit">Submit Claim Request →</button>
+    </form>
+  </div>
+</div>
+
+<!-- ==========================================
+     REPORT ITEM MODAL
+     ========================================== -->
+<div class="modal-overlay" id="reportModal">
+  <div class="modal">
+    <button class="modal-close" id="closeReport">×</button>
+    <span class="eyebrow">NEW REPORT</span>
+    <h2>Report a Lost or Found Item</h2>
+    <p class="modal-sub">Provide as much detail as possible so FindIt AI can identify potential matches.</p>
+
+    <div class="type-toggle">
+      <button type="button" class="selected" id="toggleLost" data-report-type="lost">🔴 I lost an item</button>
+      <button type="button" id="toggleFound" data-report-type="found">🟢 I found an item</button>
+    </div>
+
+    <form id="reportForm">
+      <div class="form-grid">
+        <label>Item name
+          <input id="itemName" required placeholder="e.g. Black Herschel Backpack">
+        </label>
+        <label>Category
+          <select id="itemCategory" required>
+            <option value="Bags">Bags</option>
+            <option value="Electronics">Electronics</option>
+            <option value="Clothing">Clothing</option>
+            <option value="Wallets">Wallets</option>
+            <option value="Keys">Keys</option>
+            <option value="Other">Other</option>
+          </select>
+        </label>
+        <label>Color
+          <input id="itemColor" placeholder="e.g. Black">
+        </label>
+        <label>Brand
+          <input id="itemBrand" placeholder="e.g. Herschel">
+        </label>
+        <label>Location
+          <select id="itemLocation" required>
+            <option value="Library">Library</option>
+            <option value="Library / 2nd Floor">Library / 2nd Floor</option>
+            <option value="Student Center">Student Center</option>
+            <option value="Gym">Gym</option>
+            <option value="Cafeteria">Cafeteria</option>
+            <option value="Science Building">Science Building</option>
+            <option value="Campus Commons">Campus Commons</option>
+            <option value="Other">Other</option>
+          </select>
+        </label>
+        <label>Date
+          <input type="date" id="itemDate" required>
+        </label>
+      </div>
+
+      <label>Description
+        <textarea id="itemDescription" rows="4" placeholder="Describe unique marks, stickers, contents, or circumstances..."></textarea>
+      </label>
+
+      <!-- Image Upload with Live Preview -->
+      <label class="upload-box" id="uploadBox">
+        <span id="uploadIcon">＋</span>
+        <b id="uploadTitle">Add item photo</b>
+        <small id="uploadSubtitle">JPG, PNG, or WEBP · Recommended for AI visual matching</small>
+        <input type="file" id="itemPhoto" accept="image/png, image/jpeg, image/jpg, image/webp">
+      </label>
+
+      <div class="img-preview-wrap" id="imgPreviewWrap" style="display:none;">
+        <img id="imgPreview" src="" alt="Selected Preview">
+        <button type="button" class="remove-preview-btn" id="removePreviewBtn">✕ Remove Photo</button>
+      </div>
+
+      <button class="primary-btn full" id="submitReportBtn" type="submit">Submit Report →</button>
+    </form>
+  </div>
+</div>
+
+<!-- ==========================================
+     TOAST NOTIFICATIONS
+     ========================================== -->
+<div class="toast" id="toast"></div>
+
+<!-- App Logic -->
+<script src="script.js"></script>
+</body>
+</html>

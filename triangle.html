@@ -1,0 +1,26 @@
+<html>
+<head>
+<title>JS program</title>
+<script>
+function display_diff() {
+ var d1, d2, diff;
+ d1 = new Date(form1.date1.value);
+ d2 = new Date(form1.date2.value);
+ diff = (d2 - d1) / (1000 * 3600 * 24);
+ document.getElementById("disp").innerHTML = "Difference of dates in days - " + diff;
+}
+</script>
+</head>
+<body>
+<h1>JS program to display difference between dates</h1>
+<form name="form1">
+<input type="date" name="date1">
+<br><br>
+<input type="date" name="date2">
+<br><br>
+<input type="button" name="disp_diff" value="Display Difference" onclick="display_diff()">
+</form>
+<br>
+<p id="disp"></p>
+</body>
+</html>

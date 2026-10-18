@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<body>
+<form name="f1">
+Enter Base
+<input type="number" name="n1"><br><br>
+Enter Height
+<input type="number" name="n2"><br><br>
+<input type="button" name="b1" value="Area of Triangle" onClick="area()">
+</form>
+
+<script type="text/Javascript">
+function area()
+{
+ var b,h,a;
+ b=parseInt(f1.n1.value);
+ h=parseInt(f1.n2.value);
+ a=1/2*b*h;
+ alert("Area of Triangle is "+a);
+}
+</script>
+</body>
+</html>

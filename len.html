@@ -1,0 +1,24 @@
+ <html>
+<head>
+<title>JS program</title>
+<script>
+function display_length() {
+  var str, len;
+  str = form1.str_box.value;
+  len = str.length;
+  document.getElementById("disp").innerHTML = 
+  "Length of string - " + len;
+}
+</script>
+</head>
+
+<body>
+<h1>JS program to print length of string</h1>
+<form name="form1">
+ <input type="text" name="str_box" size=50>
+ <input type="button" name="disp_strlen" value="Display length" onClick="display_length()">
+</form>
+<br>
+<p id="disp"> </p>
+</body>
+</html>
